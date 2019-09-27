@@ -115,12 +115,12 @@ under the License.
 			<fileMode>755</fileMode>
 		</fileSet>
 
-		<!-- copy python scripts -->
-		<fileSet>
-			<directory>../flink-python/bin/</directory>
-			<outputDirectory>bin</outputDirectory>
-			<fileMode>0755</fileMode>
-		</fileSet>
+<!--		&lt;!&ndash; copy python scripts &ndash;&gt;-->
+<!--		<fileSet>-->
+<!--			<directory>../flink-python/bin/</directory>-->
+<!--			<outputDirectory>bin</outputDirectory>-->
+<!--			<fileMode>0755</fileMode>-->
+<!--		</fileSet>-->
 
 		<!-- copy SQL client -->
 		<fileSet>
@@ -257,12 +257,12 @@ under the License.
 			</includes>
 		</fileSet>
 
-		<!-- copy python table example to examples of dist -->
-		<fileSet>
-			<directory>../flink-python/pyflink/table/examples</directory>
-			<outputDirectory>examples/python/table</outputDirectory>
-			<fileMode>0755</fileMode>
-		</fileSet>
+<!--		&lt;!&ndash; copy python table example to examples of dist &ndash;&gt;-->
+<!--		<fileSet>-->
+<!--			<directory>../flink-python/pyflink/table/examples</directory>-->
+<!--			<outputDirectory>examples/python/table</outputDirectory>-->
+<!--			<fileMode>0755</fileMode>-->
+<!--		</fileSet>-->
 
 		<!-- copy jar file of the table examples -->
 		<fileSet>

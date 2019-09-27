@@ -161,21 +161,21 @@
 			<fileMode>0644</fileMode>
 		</file>
 
-		<!-- Python -->
-		<file>
-			<source>../flink-python/target/flink-python_${scala.binary.version}-${project.version}.jar</source>
-			<outputDirectory>opt</outputDirectory>
-			<destName>flink-python_${scala.binary.version}-${project.version}.jar</destName>
-			<fileMode>0644</fileMode>
-		</file>
+<!--		&lt;!&ndash; Python &ndash;&gt;-->
+<!--		<file>-->
+<!--			<source>../flink-python/target/flink-python_${scala.binary.version}-${project.version}.jar</source>-->
+<!--			<outputDirectory>opt</outputDirectory>-->
+<!--			<destName>flink-python_${scala.binary.version}-${project.version}.jar</destName>-->
+<!--			<fileMode>0644</fileMode>-->
+<!--		</file>-->
 	</files>
-	<fileSets>
-		<fileSet>
-			<directory>../flink-python/lib/</directory>
-			<outputDirectory>opt/python/</outputDirectory>
-			<fileMode>0644</fileMode>
-		</fileSet>
-	</fileSets>
+<!--	<fileSets>-->
+<!--		<fileSet>-->
+<!--			<directory>../flink-python/lib/</directory>-->
+<!--			<outputDirectory>opt/python/</outputDirectory>-->
+<!--			<fileMode>0644</fileMode>-->
+<!--		</fileSet>-->
+<!--	</fileSets>-->
 	<dependencySets>
 		<dependencySet>
 			<unpack>false</unpack>
