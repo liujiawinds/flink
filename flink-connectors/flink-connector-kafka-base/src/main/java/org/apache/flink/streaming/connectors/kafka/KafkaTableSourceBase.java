@@ -21,6 +21,7 @@ package org.apache.flink.streaming.connectors.kafka;
 import org.apache.flink.annotation.Internal;
 import org.apache.flink.api.common.serialization.DeserializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.config.StartupMode;
@@ -38,6 +39,7 @@ import org.apache.flink.types.Row;
 import org.apache.flink.util.Preconditions;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -88,6 +90,7 @@ public abstract class KafkaTableSourceBase implements
 	/** Specific startup offsets; only relevant when startup mode is {@link StartupMode#SPECIFIC_OFFSETS}. */
 	private final Map<KafkaTopicPartition, Long> specificStartupOffsets;
 
+	private static final Map<Tuple3<String, Properties, DeserializationSchema<Row>>, DataStream<Row>> sourceStreams = new HashMap<>();
 	/**
 	 * Creates a generic Kafka {@link StreamTableSource}.
 	 *
@@ -156,11 +159,18 @@ public abstract class KafkaTableSourceBase implements
 	 */
 	@Override
 	public DataStream<Row> getDataStream(StreamExecutionEnvironment env) {
-
+		DataStream<Row> ret = null;
 		DeserializationSchema<Row> deserializationSchema = getDeserializationSchema();
-		// Version-specific Kafka consumer
-		FlinkKafkaConsumerBase<Row> kafkaConsumer = getKafkaConsumer(topic, properties, deserializationSchema);
-		return env.addSource(kafkaConsumer).name(explainSource());
+		Tuple3<String, Properties, DeserializationSchema<Row>> consumerBaseInfo = new Tuple3<>(topic, properties, deserializationSchema);
+		synchronized (KafkaTableSourceBase.class) {
+			if (!sourceStreams.containsKey(consumerBaseInfo)) {
+				// Version-specific Kafka consumer
+				org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase<Row> kafkaConsumer = getKafkaConsumer(topic, properties, deserializationSchema);
+				ret = env.addSource(kafkaConsumer).name(explainSource());
+				sourceStreams.put(consumerBaseInfo, ret);
+			}
+			return sourceStreams.get(consumerBaseInfo);
+		}
 	}
 
 	@Override
